@@ -19,8 +19,9 @@ namespace Task1
             service.AddBook(new Book("Author2", "Book2", "Genre2", 27));
             service.AddBook(new Book("Author3", "Book1", "Genre2", 24));
             service.RemoveBook(new Book("Author3", "Book1", "Genre2", 24)); 
+
             Book book = service.FindByTag(x => x.Author == "Author2");
-            service.AddBook(book);
+           // service.AddBook(book);
             PrintBooks(rep.LoadBooks());
         }
         private static void PrintBooks(IEnumerable<Book> books)

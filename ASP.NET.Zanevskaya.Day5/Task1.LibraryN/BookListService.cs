@@ -47,7 +47,7 @@ namespace Task1.LibraryN
         }
         public void SortBooksByTag(IComparer<Book> comparer)
         {
-            if (comparer == null)
+            if (ReferenceEquals(comparer, null))
                 LoggerMessager(new ArgumentNullException("comparer is invalid(null)"));
             books = repository.LoadBooks().ToList();
             books.Sort(comparer);
@@ -55,7 +55,7 @@ namespace Task1.LibraryN
         }
         public Book FindByTag(Func<Book, bool> func)
         {
-            if (func == null)
+            if (ReferenceEquals(func, null))
                 LoggerMessager(new ArgumentNullException("func is invalid(null)"));
             Book findBook = null;
             books = repository.LoadBooks().ToList();

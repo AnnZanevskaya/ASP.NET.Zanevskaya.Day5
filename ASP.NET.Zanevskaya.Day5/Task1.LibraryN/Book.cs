@@ -60,8 +60,8 @@ namespace Task1.LibraryN
 
         public bool Equals(Book other)
         {
-            if (other == null) return false;
-            if (this == other) return true;
+            if (ReferenceEquals(other, null)) return false;
+            if (ReferenceEquals(this, other)) return true;
             if (String.Compare(this.Author, other.Author, true) != 0 || String.Compare(this.Title, other.Title, true) != 0 ||
                 String.Compare(this.Genre, other.Genre, true) != 0 || !(this.Year == other.Year))
                 return false;
@@ -70,7 +70,7 @@ namespace Task1.LibraryN
 
         public int CompareTo(Book other)
         {
-            if (other == null) return 1;
+            if (ReferenceEquals(other, null)) return 1;
             if (this.Equals(other)) return 0;
 
             return String.Compare(Title, other.Title, true);
@@ -86,8 +86,8 @@ namespace Task1.LibraryN
         }
         public override bool Equals(object obj)
         {
-            if (obj == null) return false;
-            if (this == obj) return true;
+            if (ReferenceEquals(obj, null)) return false;
+            if (ReferenceEquals(obj, this)) return true;
 
             Book book = obj as Book;
             return Equals(book);
