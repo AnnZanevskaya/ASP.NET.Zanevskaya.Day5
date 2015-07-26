@@ -10,11 +10,11 @@ namespace Task1.LibraryN
     public class BinaryBookRepository: IBookRepository<Book>
     {
         private readonly string filePath;
-        //public BinaryBookRepository()
-        //{
-        //    string folderPath = AppDomain.CurrentDomain.BaseDirectory;
-        //    filePath = Path.Combine(folderPath, "books");
-        //}
+        public BinaryBookRepository()
+        {
+          string folderPath = AppDomain.CurrentDomain.BaseDirectory;
+          filePath = Path.Combine(folderPath, "books");
+        }
         public BinaryBookRepository(string filePath)
         {
             if (string.IsNullOrEmpty(filePath)) throw new ArgumentNullException();

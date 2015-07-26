@@ -17,30 +17,15 @@ namespace Task1.LibraryN
         public BookListService(IBookRepository<Book> repository)
         {
             if (ReferenceEquals(repository, null))
-            {
-                Exception e = new ArgumentNullException("repository is invalid(null)");
-                logger.Info(e.Message);
-                logger.Error(e.StackTrace);
-                throw e;
-            } 
+                LoggerMessager(new ArgumentNullException("repository is invalid(null)"));
             this.repository = repository;
         }
         public void AddBook(Book book)
         {
             if (ReferenceEquals(book, null))
-            {
-                Exception e = new ArgumentNullException("book is invalid(null)");
-                logger.Info(e.Message);
-                logger.Error(e.StackTrace);
-                throw e;
-            }
+                LoggerMessager(new ArgumentNullException("book is invalid(null)"));
             if (BookExistence(book))
-            {
-                Exception e = new ArgumentNullException("book already in repository");
-                logger.Info(e.Message);
-                logger.Error(e.StackTrace);
-                throw e;
-            }
+                LoggerMessager(new ArgumentNullException("book already in repository"));
             books.Add(book);
             repository.SaveBooks(books);
             logger.Info(String.Format("add new book {0}", book));
@@ -49,19 +34,9 @@ namespace Task1.LibraryN
         public void RemoveBook(Book book)
         {
             if (ReferenceEquals(book, null))
-            {
-                Exception e = new ArgumentNullException("book is invalid(null)");
-                logger.Info(e.Message);
-                logger.Error(e.StackTrace);
-                throw e;
-            }
+                LoggerMessager(new ArgumentNullException("book is invalid(null)"));
             if (!BookExistence(book))
-            {
-                Exception e = new ArgumentNullException("book doesn't exist");
-                logger.Info(e.Message);
-                logger.Error(e.StackTrace);
-                throw e;
-            }
+                LoggerMessager(new ArgumentNullException("book doesn't exist"));
             books.Remove(book);
             repository.SaveBooks(books);
             logger.Info(String.Format("remove book {0}", book));
@@ -72,17 +47,32 @@ namespace Task1.LibraryN
         }
         public void SortBooksByTag(IComparer<Book> comparer)
         {
-            if (comparer == null) throw new ArgumentNullException("comparer");
+            if (comparer == null)
+                LoggerMessager(new ArgumentNullException("comparer is invalid(null)"));
             books = repository.LoadBooks().ToList();
             books.Sort(comparer);
-            repository.SaveBooks(books);           
+            repository.SaveBooks(books);
+        }
+        public Book FindByTag(Func<Book, bool> func)
+        {
+            if (func == null)
+                LoggerMessager(new ArgumentNullException("func is invalid(null)"));
+            Book findBook = null;
+            books = repository.LoadBooks().ToList();
+            findBook = books.FirstOrDefault(func);
+            return findBook;
         }
         private bool BookExistence(Book book)
         {
-            Book existBook = books.FirstOrDefault(x => x.Equals(book));
-            if (ReferenceEquals(existBook, null)) return false;
-            return true;
-
+           Book existBook = books.FirstOrDefault(x => x.Equals(book));
+           if (ReferenceEquals(existBook, null)) return false;
+           return true;
+        }
+        private void LoggerMessager(Exception e)
+        {
+            logger.Info(e.Message);
+            logger.Error(e.StackTrace);
+            throw e;
         }
     }
 }
